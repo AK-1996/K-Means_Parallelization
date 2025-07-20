@@ -29,3 +29,36 @@ gcc -O3 -std=c11 -o kmeans_serial kmeans_serial.c
 
 # Parallel MPI version
 mpicc -O3 -std=c11 -o kmeans_mpi kmeans_mpi.c
+```
+
+## Usage
+### Serial
+`./kmeans_serial <dataset.csv> <num_clusters> <num_iterations>`
+
+### Parallel (P processes)
+`mpirun -np P ./kmeans_mpi <dataset.csv> <num_clusters> <num_iterations>`
+
+- dataset.csv: first line “<n_points> <n_features>”, followed by one point per line.
+- num_clusters (k): desired number of clusters.
+- num_iterations: maximum iterations before convergence.
+
+## Python Utilities
+# Generate a dataset of 500 000 points with 2 features
+`python3 dataset_generator.py --n_points 500000 --n_features 2 --output data.csv`
+
+# Verify serial vs. parallel outputs
+`python3 check.py --serial out_serial.txt --parallel out_mpi.txt`
+
+## Performance Summary & Advice
+- Observation distribution gave near-ideal speedup (≈P) with minimal serial fraction.
+- Cluster-level parallelization plateaued quickly when k < #processes.
+- Intra-regional clusters outperform inter-regional—minimize cross-region traffic.
+- Advice: Aim for node counts ≤10× your cluster count to balance compute vs. communication overhead.
+
+Next Steps
+- Experiment with hybrid MPI+OpenMP to reduce latency.
+- Implement centroid initialization strategies (k-means++) for faster convergence.
+- Add checkpointing to resume long runs.
+
+## Author
+Matteo Poire` (Master’s in Data Science, 2025)
