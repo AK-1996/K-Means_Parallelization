@@ -43,10 +43,10 @@ mpicc -O3 -std=c11 -o kmeans_mpi kmeans_mpi.c
 - num_iterations: maximum iterations before convergence.
 
 ## Python Utilities
-# Generate a dataset of 500 000 points with 2 features
+### Generate a dataset of 500 000 points with 2 features
 `python3 dataset_generator.py --n_points 500000 --n_features 2 --output data.csv`
 
-# Verify serial vs. parallel outputs
+### Verify serial vs. parallel outputs
 `python3 check.py --serial out_serial.txt --parallel out_mpi.txt`
 
 ## Performance Summary & Advice
